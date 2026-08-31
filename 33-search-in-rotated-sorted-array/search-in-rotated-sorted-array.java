@@ -1,34 +1,45 @@
 class Solution {
     public int search(int[] nums, int target) {
-    int n = nums.length;
-    int low = 0;
-    int high = n - 1;
-     
-     while(low <= high) {
-        int mid = (low + high) / 2;
-        
-        // If target is found at mid
-        if(nums[mid] == target)
-        return mid;
 
-        //check if the left half is sorted
-        else if (nums[low] <= nums[mid]) {
-            //If target is in left half
-            if (target >= nums[low] && target <= nums[mid])
-            high = mid;
-            else
-            low = mid + 1;
+        int low = 0;
+        int high = nums.length - 1;
+
+        while (low <= high) {
+
+            int mid = low + (high - low) / 2;
+
+            // Target mil gaya
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            // Left half sorted hai
+            if (nums[low] <= nums[mid]) {
+
+                // Target left sorted half mein hai
+                if (nums[low] <= target && target < nums[mid]) {
+                    high = mid - 1;
+                }
+                // Right half mein jao
+                else {
+                    low = mid + 1;
+                }
+
+            }
+            // Right half sorted hai
+            else {
+
+                // Target right sorted half mein hai
+                if (nums[mid] < target && target <= nums[high]) {
+                    low = mid + 1;
+                }
+                // Left half mein jao
+                else {
+                    high = mid - 1;
+                }
+            }
         }
-        //Right half is sorted
-        else {
-            // If target is in the right half
-            if (mid + 1 <= high && target >= nums[mid + 1] && target <= nums[high])
-            low = mid + 1;
-            else
-            high = mid;
-        }
-     }
-     // Target not foun
-     return -1;
+
+        return -1;
     }
 }
